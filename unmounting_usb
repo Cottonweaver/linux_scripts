@@ -1,0 +1,17 @@
+. "${HOME}/.config/zsh_alias"
+
+mounted=$(lsblk -lp | grep "part  /mnt" | awk '{print $1 " -> " $7}')
+
+[[ "$mounted" == "" ]] && exit 1
+
+chosen=$(echo "$mounted" | dmenu -p "Unmount:" | awk '{print $1}')
+
+
+[[ "$chosen" == "" ]] && exit 1
+
+
+link=$(lsblk -lp | grep $chosen | awk '{print $7}' | sed "s/\/mnt\///")
+
+sudo umount "$chosen"&& rm /home/${USER}/$link && pgrep -x dunst && notify-send "$chosen is now unmounted"
+
+

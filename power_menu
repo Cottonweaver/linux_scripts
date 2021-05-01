@@ -1,0 +1,20 @@
+. "${HOME}/.config/zsh_alias"
+
+case "$(echo -e "shutdown\nreboot\nexit" | dmenu -p "What should I do?")" in 
+	shutdown)
+		if [[ $(echo -e "No\nYes" | dmenu -i -p "Do you want to shutdown?")   == "Yes" ]]; then
+		      shutdown -h now	
+		fi
+		;;
+	exit)
+		if [[ $(echo -e "No\nYes" | dmenu -i -p "Do you want to exit i3?")   == "Yes" ]]; then
+		       i3-msg exit	
+		fi
+		;;
+	reboot)
+		if [[ $(echo -e "No\nYes" | dmenu -i -p "Do you want to reboot?")   == "Yes" ]]; then
+		       reboot
+		fi
+		;;
+
+esac

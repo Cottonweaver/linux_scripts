@@ -1,0 +1,18 @@
+. "${HOME}/.config/zsh_alias"
+
+
+mountable=$(lsblk -lp | grep "part  $"| grep "/dev/sd*" | awk '{print $1, "(" $4 ")"}')
+echo "$mountable"
+[[ "$mountable" = "" ]] && exit 1
+
+chosen=$(echo "$mountable" | dmenu -i -p "Drives" | awk '{print $1}')
+
+[[ "$chosen" = "" ]] && exit 1
+
+dirs=$(find /mnt -mindepth 1 2>/dev/null)
+mountpoint=$(echo "$dirs" | dmenu -p "Possible directories")
+
+link=$(echo $mountpoint | sed "s/\/mnt\///")
+
+sudo mount -o gid=cardinal,fmask=113,dmask=002 $chosen $mountpoint && ln -sd $mountpoint /home/${USER}/$link && pgrep -x dunst && notify-send "$chosen is mounted on $mountpoint"
+
