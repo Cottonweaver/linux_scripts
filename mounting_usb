@@ -14,5 +14,5 @@ mountpoint=$(echo "$dirs" | dmenu -p "Possible directories")
 
 link=$(echo $mountpoint | sed "s/\/mnt\///")
 
-sudo mount -o gid=cardinal,fmask=113,dmask=002 $chosen $mountpoint && ln -sd $mountpoint /home/${USER}/$link && pgrep -x dunst && notify-send "$chosen is mounted on $mountpoint"
+sudo mount -o gid=user,fmask=113,dmask=002 $chosen $mountpoint && ln -sd $mountpoint /home/${USER}/$link && pgrep -x dunst && notify-send "$chosen is mounted on $mountpoint"
 
